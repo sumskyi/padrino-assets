@@ -99,5 +99,18 @@ module Padrino
         Padrino::Tasks.files << Dir[File.dirname(__FILE__) + '/tasks/**/*.rake']
       end
     end # self
+
+    class App
+      def initialize(app)
+        @app      = app
+        @matcher  = %r|^/assets/*|
+      end
+
+      def call(env)
+        return @app.call(env) unless env['PATH_INFO'] =~ @matcher
+        env['PATH_INFO'].sub!(@matcher, '')
+        Padrino::Assets.environment.call(env)
+      end
+    end
   end # Assets
 end # Padrino

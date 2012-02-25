@@ -16,7 +16,13 @@ Modify your `app/app.rb` file to register the plugin:
 
 ``` ruby
 class ExampleApplication < Padrino::Application
+
+  # make sure this line is BELOW "register Padrino::Helpers"
   register Padrino::Assets
+
+  # put this line if your server ignores config.ru file
+  # like "padrino start" do
+  use Padrino::Assets::App
 end
 ```
 
